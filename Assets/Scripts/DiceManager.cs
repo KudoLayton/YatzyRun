@@ -9,6 +9,7 @@ public class DiceManager : MonoBehaviour
     private DiceGroup diceGroup;
     public UnityEvent<int>[] diceImageUpdateEvents = new UnityEvent<int>[5];
     public UnityEvent<int, bool>[] scoreBoardUpdateEvents = new UnityEvent<int, bool>[13];
+    public UnityEvent resetDiceSelectionEvent = new UnityEvent();
     
     public int[] scores 
     {
@@ -57,7 +58,23 @@ public class DiceManager : MonoBehaviour
     {
         scores[idx] = ScoreCalculator.calculatorArray[idx](getDiceValueArray());
         scoreEnable[idx] = false;
-        scoreBoardUpdateEvents[idx].Invoke(scores[idx], false);
+
+        for (int i = 0; i < 5; ++i)
+        {
+            diceGroup.diceArray[i].RollDice();
+            diceImageUpdateEvents[i].Invoke(diceGroup.diceArray[i].value);
+            diceGroup.resetRolledDice();
+        }
+        resetDiceSelectionEvent.Invoke();
+
+        int[] diceResult = getDiceValueArray();
+        for (int i = 0; i < 13; ++i)
+        {
+            if (scoreEnable[i])
+                scoreBoardUpdateEvents[i].Invoke(ScoreCalculator.calculatorArray[i](diceResult), true);
+            else
+                scoreBoardUpdateEvents[i].Invoke(scores[i], false);
+        }
     }
     private int[] getDiceValueArray()
     {
