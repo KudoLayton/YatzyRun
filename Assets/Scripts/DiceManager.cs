@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class DiceManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class DiceManager : MonoBehaviour
     public UnityEvent<int>[] diceImageUpdateEvents = new UnityEvent<int>[5];
     public UnityEvent<int, bool>[] scoreBoardUpdateEvents = new UnityEvent<int, bool>[13];
     public UnityEvent resetDiceSelectionEvent = new UnityEvent();
+    public UnityEvent<string> updateTotalScoreEvent = new UnityEvent<string>();
     
     public int[] scores 
     {
@@ -32,7 +34,9 @@ public class DiceManager : MonoBehaviour
         {
             scoreEnable[i] = true;
             scoreBoardUpdateEvents[i].Invoke(ScoreCalculator.calculatorArray[i](diceResult), true);
+            scores[i] = 0;
         }
+        updateTotalScoreEvent.Invoke("0");
     }
 
     public void selectDice(int idx) => diceGroup.SelectRolledDice(idx);
@@ -58,6 +62,13 @@ public class DiceManager : MonoBehaviour
     {
         scores[idx] = ScoreCalculator.calculatorArray[idx](getDiceValueArray());
         scoreEnable[idx] = false;
+
+        int totalScore = 0;
+        for(int i = 0; i < 13; ++i)
+        {
+            totalScore += scores[i];
+        }
+        updateTotalScoreEvent.Invoke(totalScore.ToString());
 
         for (int i = 0; i < 5; ++i)
         {
