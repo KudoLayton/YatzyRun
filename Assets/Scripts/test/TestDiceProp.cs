@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TestDiceProp : MonoBehaviour
 {
     private Text thisText;
-    void Start()
+    void Awake()
     {
         thisText = GetComponent<Text>();
     }
