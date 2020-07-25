@@ -22,7 +22,7 @@ public class DiceManager : MonoBehaviour
     } = new int[13];
 
     [SerializeField]
-    private int[] zombieScores = new int[12];
+    private int[] zombieScores = new int[13];
 
     public int nowRound
     {
@@ -83,8 +83,11 @@ public class DiceManager : MonoBehaviour
 
         if (totalScore <= zombieScores[++nowRound])
         {
-            SceneManager.LoadScene("LoseScene");
-            return;
+            if (zombieScores[nowRound] > 0)
+            {
+                SceneManager.LoadScene("LoseScene");
+                return;
+            }
         }
 
         if (nowRound > 11) 
