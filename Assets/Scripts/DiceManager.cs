@@ -97,9 +97,9 @@ public class DiceManager : MonoBehaviour
         {
             diceGroup.diceArray[i].RollDice();
             diceImageUpdateEvents[i].Invoke(diceGroup.diceArray[i].value);
-            diceGroup.resetRolledDice();
         }
         resetDiceSelectionEvent.Invoke();
+        diceGroup.resetRolledDice();
 
         int[] diceResult = getDiceValueArray();
         for (int i = 0; i < 13; ++i)
