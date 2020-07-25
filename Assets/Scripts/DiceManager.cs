@@ -74,11 +74,6 @@ public class DiceManager : MonoBehaviour
     {
         scores[idx] = ScoreCalculator.calculatorArray[idx](getDiceValueArray());
         scoreEnable[idx] = false;
-        if (++nowRound > 11) 
-        {
-            SceneManager.LoadScene("VictoryScene");
-            return;
-        }
 
         int totalScore = 0;
         for(int i = 0; i < 13; ++i)
@@ -86,9 +81,15 @@ public class DiceManager : MonoBehaviour
             totalScore += scores[i];
         }
 
-        if (totalScore <= zombieScores[nowRound - 1])
+        if (totalScore <= zombieScores[++nowRound])
         {
             SceneManager.LoadScene("LoseScene");
+            return;
+        }
+
+        if (nowRound > 11) 
+        {
+            SceneManager.LoadScene("WinScene");
             return;
         }
         updateTotalScoreEvent.Invoke(totalScore.ToString());
