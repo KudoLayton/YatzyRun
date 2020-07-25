@@ -1,0 +1,8 @@
+Idle 0-8
+Walk 9-20
+Run 21-28
+Attack 29-39
+Trip 40-45
+Get up r 45-52
+Fall 53-59
+Get up f 60-67
