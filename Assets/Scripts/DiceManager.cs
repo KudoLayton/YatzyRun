@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class DiceManager : MonoBehaviour
@@ -12,12 +13,22 @@ public class DiceManager : MonoBehaviour
     public UnityEvent<int, bool>[] scoreBoardUpdateEvents = new UnityEvent<int, bool>[13];
     public UnityEvent resetDiceSelectionEvent = new UnityEvent();
     public UnityEvent<string> updateTotalScoreEvent = new UnityEvent<string>();
+    public UnityEvent<string> updateZombieScoreEvent = new UnityEvent<string>();
     
     public int[] scores 
     {
         get;
         private set;
     } = new int[13];
+
+    [SerializeField]
+    private int[] zombieScores = new int[12];
+
+    public int nowRound
+    {
+        get;
+        private set;
+    } = 0;
 
     public bool[] scoreEnable
     {
@@ -37,6 +48,7 @@ public class DiceManager : MonoBehaviour
             scores[i] = 0;
         }
         updateTotalScoreEvent.Invoke("0");
+        updateZombieScoreEvent.Invoke(zombieScores[nowRound].ToString());
     }
 
     public void selectDice(int idx) => diceGroup.SelectRolledDice(idx);
@@ -62,14 +74,25 @@ public class DiceManager : MonoBehaviour
     {
         scores[idx] = ScoreCalculator.calculatorArray[idx](getDiceValueArray());
         scoreEnable[idx] = false;
+        if (++nowRound > 11) 
+        {
+            SceneManager.LoadScene("VictoryScene");
+            return;
+        }
 
         int totalScore = 0;
         for(int i = 0; i < 13; ++i)
         {
             totalScore += scores[i];
         }
-        updateTotalScoreEvent.Invoke(totalScore.ToString());
 
+        if (totalScore <= zombieScores[nowRound - 1])
+        {
+            SceneManager.LoadScene("LoseScene");
+            return;
+        }
+        updateTotalScoreEvent.Invoke(totalScore.ToString());
+        updateZombieScoreEvent.Invoke(zombieScores[nowRound].ToString());
         for (int i = 0; i < 5; ++i)
         {
             diceGroup.diceArray[i].RollDice();
