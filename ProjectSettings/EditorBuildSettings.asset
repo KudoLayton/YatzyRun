@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BasicSystemTestbed.unity
     guid: c20e1f8bbbcb11947901d6af54b28249
+  - enabled: 1
+    path: Assets/Scenes/VictoryScene.unity
+    guid: 8fccdbe81beea244785502c620ad2689
+  - enabled: 1
+    path: Assets/Scenes/LoseScene.unity
+    guid: 0198bcc718ddbbf43b1b6a602edb2c95
   m_configObjects: {}

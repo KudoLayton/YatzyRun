@@ -25,6 +25,11 @@ public class DiceGroup
     }
 
     public void SelectRolledDice(int idx) => rollingArray[idx] = !rollingArray[idx];
+    public void resetRolledDice()
+    {
+        for (int i = 0; i < 5; ++i)
+            rollingArray[i] = false;
+    }
 
     public void RollSelectedDice()
     {
