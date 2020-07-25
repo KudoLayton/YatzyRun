@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TestScoreBoard : MonoBehaviour
 {
     [SerializeField]
-    private string prefix;
+    private string prefix = "";
     private Button button;
     private Text text;
     void Awake()

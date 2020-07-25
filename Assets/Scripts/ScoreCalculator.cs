@@ -26,8 +26,8 @@ class ScoreCalculator{
         int score = 0;
         for (int i = 0; i < 5; i++)
         {
-            if (dice[i] == 1)
-                score += dice[i];
+            if (dice[i] == 0)
+                score += dice[i] + 1;
         }
         return score;
     }
@@ -35,8 +35,8 @@ class ScoreCalculator{
         int score = 0;
         for (int i = 0; i < 5; i++)
         {
-            if (dice[i] == 2)
-                score += dice[i];
+            if (dice[i] == 1)
+                score += dice[i] + 1;
         }
         return score;
     }
@@ -44,8 +44,8 @@ class ScoreCalculator{
         int score = 0;
         for (int i = 0; i < 5; i++)
         {
-            if (dice[i] == 3)
-                score += dice[i];
+            if (dice[i] == 2)
+                score += dice[i] + 1;
         }
         return score;
     }
@@ -53,8 +53,8 @@ class ScoreCalculator{
         int score = 0;
         for (int i = 0; i < 5; i++)
         {
-            if (dice[i] == 4)
-                score += dice[i];
+            if (dice[i] == 3)
+                score += dice[i] + 1;
         }
         return score;
     }
@@ -62,8 +62,8 @@ class ScoreCalculator{
         int score = 0;
         for (int i = 0; i < 5; i++)
         {
-            if (dice[i] == 5)
-                score += dice[i];
+            if (dice[i] == 4)
+                score += dice[i] + 1;
         }
         return score;
     }
@@ -71,8 +71,8 @@ class ScoreCalculator{
         int score = 0;
         for (int i = 0; i < 5; i++)
         {
-            if (dice[i] == 6)
-                score += dice[i];
+            if (dice[i] == 5)
+                score += dice[i] + 1;
         }
         return score;
     }
@@ -80,7 +80,7 @@ class ScoreCalculator{
         int score = 0;
         int counter;
         string numOfDice = "";
-        Regex reg = new Regex(@"3");
+        Regex reg = new Regex(@"[345]");
         for (int i = 0; i < 6; i++){
             counter = 0;
             for (int j = 0; j < 5; j++)
@@ -90,7 +90,7 @@ class ScoreCalculator{
         }
         if (reg.IsMatch(numOfDice)){
             for(int i=0;i<5;i++)
-            score+=dice[i];
+            score+=dice[i] + 1;
         }
         return score;
     }
@@ -98,7 +98,7 @@ class ScoreCalculator{
         int score = 0;
         int counter;
         string numOfDice = "";
-        Regex reg = new Regex(@"4");
+        Regex reg = new Regex(@"[45]");
         for (int i = 0; i < 6; i++){
             counter = 0;
             for (int j = 0; j < 5; j++)
@@ -108,11 +108,11 @@ class ScoreCalculator{
         }
         if (reg.IsMatch(numOfDice)){
             for(int i=0;i<5;i++)
-            score+=dice[i];
+            score+=dice[i] + 1;
         }
         return score;
     }
-    static int FullHouse(int[] dice){
+    static public int FullHouse(int[] dice){
         int score = 0;
         int counter;
         string numOfDice = "";
@@ -128,7 +128,7 @@ class ScoreCalculator{
             score = 25;
         return score;
     }
-    static int SmallStraight(int[] dice){
+    static public int SmallStraight(int[] dice){
         int score = 0;
         int counter;
         string numOfDice = "";
@@ -144,7 +144,7 @@ class ScoreCalculator{
             score = 30;
         return score;
     }
-    static int LargeStraight(int[] dice){
+    static public int LargeStraight(int[] dice){
         int score = 0;
         int counter;
         string numOfDice = "";
@@ -163,7 +163,7 @@ class ScoreCalculator{
     static int Choice(int[] dice){
         int score = 0;
         for(int i=0;i<5;i++)
-            score+=dice[i];
+            score+=dice[i] + 1;
         return score;
     }
     static int Yahtzee(int[] dice){

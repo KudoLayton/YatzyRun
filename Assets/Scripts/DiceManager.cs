@@ -9,7 +9,7 @@ public class DiceManager : MonoBehaviour
     private DiceGroup diceGroup;
     public UnityEvent<int>[] diceImageUpdateEvents = new UnityEvent<int>[5];
     public UnityEvent<int, bool>[] scoreBoardUpdateEvents = new UnityEvent<int, bool>[13];
-
+    
     public int[] scores 
     {
         get;
@@ -64,7 +64,7 @@ public class DiceManager : MonoBehaviour
         int[] scores = new int[5];
         for (int i = 0; i < 5; ++i)
         {
-            scores[i] = diceGroup.diceArray[i].value + 1;
+            scores[i] = diceGroup.diceArray[i].value;
         }
         return scores;
     }
