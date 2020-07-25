@@ -1096,6 +1096,7 @@ GameObject:
   - component: {fileID: 339712987}
   - component: {fileID: 339712986}
   - component: {fileID: 339712985}
+  - component: {fileID: 339712988}
   m_Layer: 5
   m_Name: reRollButton
   m_TagString: Untagged
@@ -1217,6 +1218,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339712983}
   m_CullTransparentMesh: 0
+--- !u!114 &339712988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339712983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e13e8cb916fb9984f8adabf69cfd626e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &354472812
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4424,6 +4437,21 @@ MonoBehaviour:
       - m_Target: {fileID: 1723376289}
         m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
         m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  updateDiceRollingChanceEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 339712988}
+        m_TargetAssemblyTypeName: RollingButton, Assembly-CSharp
+        m_MethodName: updateChance
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

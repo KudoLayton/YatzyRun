@@ -14,6 +14,7 @@ public class DiceManager : MonoBehaviour
     public UnityEvent resetDiceSelectionEvent = new UnityEvent();
     public UnityEvent<string> updateTotalScoreEvent = new UnityEvent<string>();
     public UnityEvent<string> updateZombieScoreEvent = new UnityEvent<string>();
+    public UnityEvent<int> updateDiceRollingChanceEvent = new UnityEvent<int>();
     
     public int[] scores 
     {
@@ -23,6 +24,7 @@ public class DiceManager : MonoBehaviour
 
     [SerializeField]
     private int[] zombieScores = new int[13];
+    private int diceChance;
 
     public int nowRound
     {
@@ -49,26 +51,31 @@ public class DiceManager : MonoBehaviour
         }
         updateTotalScoreEvent.Invoke("0");
         updateZombieScoreEvent.Invoke(zombieScores[nowRound].ToString());
+        diceChance = 2;
+        updateDiceRollingChanceEvent.Invoke(diceChance);
     }
 
     public void selectDice(int idx) => diceGroup.SelectRolledDice(idx);
     public void rollSelectedDice() 
     {
-        diceGroup.RollSelectedDice();
-        for (int i = 0; i < 5; ++i)
+        if (diceChance > 0)
         {
-            diceImageUpdateEvents[i].Invoke(diceGroup.diceArray[i].value);
-        }
+            diceGroup.RollSelectedDice();
+            for (int i = 0; i < 5; ++i)
+            {
+                diceImageUpdateEvents[i].Invoke(diceGroup.diceArray[i].value);
+            }
 
-        int[] diceResult = getDiceValueArray();
-        for (int i = 0; i < 13; ++i)
-        {
-            if (scoreEnable[i])
-                scoreBoardUpdateEvents[i].Invoke(ScoreCalculator.calculatorArray[i](diceResult), true);
-            else
-                scoreBoardUpdateEvents[i].Invoke(scores[i], false);
+            int[] diceResult = getDiceValueArray();
+            for (int i = 0; i < 13; ++i)
+            {
+                if (scoreEnable[i])
+                    scoreBoardUpdateEvents[i].Invoke(ScoreCalculator.calculatorArray[i](diceResult), true);
+                else
+                    scoreBoardUpdateEvents[i].Invoke(scores[i], false);
+            }
+            updateDiceRollingChanceEvent.Invoke(--diceChance);
         }
-
     }
     public void fixScore(int idx)
     {
@@ -113,6 +120,9 @@ public class DiceManager : MonoBehaviour
             else
                 scoreBoardUpdateEvents[i].Invoke(scores[i], false);
         }
+
+        diceChance = 2;
+        updateDiceRollingChanceEvent.Invoke(diceChance);
     }
     private int[] getDiceValueArray()
     {
