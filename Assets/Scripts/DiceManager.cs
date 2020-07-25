@@ -22,7 +22,7 @@ public class DiceManager : MonoBehaviour
     } = new int[13];
 
     [SerializeField]
-    private int[] zombieScores = new int[12];
+    private int[] zombieScores = new int[13];
 
     public int nowRound
     {
@@ -74,11 +74,6 @@ public class DiceManager : MonoBehaviour
     {
         scores[idx] = ScoreCalculator.calculatorArray[idx](getDiceValueArray());
         scoreEnable[idx] = false;
-        if (++nowRound > 11) 
-        {
-            SceneManager.LoadScene("VictoryScene");
-            return;
-        }
 
         int totalScore = 0;
         for(int i = 0; i < 13; ++i)
@@ -86,9 +81,18 @@ public class DiceManager : MonoBehaviour
             totalScore += scores[i];
         }
 
-        if (totalScore <= zombieScores[nowRound - 1])
+        if (totalScore <= zombieScores[++nowRound])
         {
-            SceneManager.LoadScene("LoseScene");
+            if (zombieScores[nowRound] > 0)
+            {
+                SceneManager.LoadScene("LoseScene");
+                return;
+            }
+        }
+
+        if (nowRound > 11) 
+        {
+            SceneManager.LoadScene("WinScene");
             return;
         }
         updateTotalScoreEvent.Invoke(totalScore.ToString());
