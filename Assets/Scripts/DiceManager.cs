@@ -14,7 +14,7 @@ public class DiceManager : MonoBehaviour
     public UnityEvent resetDiceSelectionEvent = new UnityEvent();
     public UnityEvent<string> updateTotalScoreEvent = new UnityEvent<string>();
     public UnityEvent<string> updateZombieScoreEvent = new UnityEvent<string>();
-    public UnityEvent<int> updateDiceRollingChanceEvent = new UnityEvent<int>();
+    public UnityEvent<bool, int> updateDiceRollingChanceEvent = new UnityEvent<bool, int>();
     
     public int[] scores 
     {
@@ -52,10 +52,14 @@ public class DiceManager : MonoBehaviour
         updateTotalScoreEvent.Invoke("0");
         updateZombieScoreEvent.Invoke(zombieScores[nowRound].ToString());
         diceChance = 2;
-        updateDiceRollingChanceEvent.Invoke(diceChance);
+        updateDiceRollingChanceEvent.Invoke(false, diceChance);
     }
 
-    public void selectDice(int idx) => diceGroup.SelectRolledDice(idx);
+    public void selectDice(int idx) { 
+        diceGroup.SelectRolledDice(idx); 
+        updateDiceRollingChanceEvent.Invoke(isRollEnable(), diceChance);
+    }
+
     public void rollSelectedDice() 
     {
         if (diceChance > 0)
@@ -74,7 +78,7 @@ public class DiceManager : MonoBehaviour
                 else
                     scoreBoardUpdateEvents[i].Invoke(scores[i], false);
             }
-            updateDiceRollingChanceEvent.Invoke(--diceChance);
+            updateDiceRollingChanceEvent.Invoke(isRollEnable(), --diceChance);
         }
     }
     public void fixScore(int idx)
@@ -122,7 +126,7 @@ public class DiceManager : MonoBehaviour
         }
 
         diceChance = 2;
-        updateDiceRollingChanceEvent.Invoke(diceChance);
+        updateDiceRollingChanceEvent.Invoke(isRollEnable(), diceChance);
     }
     private int[] getDiceValueArray()
     {
@@ -135,4 +139,14 @@ public class DiceManager : MonoBehaviour
     }
     public int getDiceValue(int idx) => diceGroup.diceArray[idx].value;
     public bool isDiceSelected(int idx) => diceGroup.rollingArray[idx];
+
+    public bool isRollEnable()
+    {
+        bool result = false;
+        for (int i = 0; i < 5; ++i)
+        {
+            result = result || diceGroup.rollingArray[i];
+        }
+        return result;
+    }
 }

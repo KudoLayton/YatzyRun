@@ -13,7 +13,7 @@ public class RollingButton : MonoBehaviour
         text = GetComponentInChildren<Text>();
     }
 
-    public void updateChance(int chance)
+    public void updateChance(bool interactable, int chance)
     {
         if (chance <= 0) {
             button.interactable = false;
@@ -21,7 +21,7 @@ public class RollingButton : MonoBehaviour
         }
         else
         {
-            button.interactable = true;
+            button.interactable = interactable & true;
             text.text = $"{chance}회 남음";
         }
     }
